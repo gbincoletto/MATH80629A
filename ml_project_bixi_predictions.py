@@ -19,6 +19,7 @@ A project by:
 """
 
 # Added a line of comments here as a test!
+# Une autre ligne de test!
 
 !pip install -q xgboost==0.4a30     #XGboost
 import xgboost
