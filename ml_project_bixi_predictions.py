@@ -21,25 +21,27 @@ A project by:
 # Added a line of comments here as a test!
 # Une autre ligne de test!
 
-!pip install -q xgboost==0.4a30     #XGboost
-import xgboost
+print("Bonjour!")
+
+# !pip install -q xgboost==0.4a30     #XGboost
+# import xgboost
 
 import pandas as pd
 import numpy as np
 import math as math
 import matplotlib.pyplot as plt
-from google.colab import files
+# from google.colab import files
 import datetime as dt
 from sklearn.cluster import KMeans
 from sklearn.cluster import DBSCAN
-from geopy import distance
-from geopy.distance import great_circle
-from shapely.geometry import MultiPoint
-from geopy.distance import vincenty
+# from geopy import distance
+# from geopy.distance import great_circle
+# from shapely.geometry import MultiPoint
+# from geopy.distance import vincenty
 import matplotlib.cm as cm
 #import dask.dataframe as dd
 
-!git clone https://github.com/gbincoletto/MATH80629A
+# !git clone https://github.com/gbincoletto/MATH80629A
 
 """## 1.2. Weather Data
 
@@ -795,8 +797,8 @@ print('Silhouette coefficient: {:0.03f}'.format(metrics.silhouette_score(fac_coo
 
 # turn the clusters into a pandas series,where each element is a cluster of points
 dbsc_clusters = pd.Series([fac_coords[fac_cluster_labels==n] for n in range(num_clusters)])
-Clustered 1,396 points down to 20 clusters, for 98.6% compression in 0.13 seconds
-Silhouette coefficient: -0.166
+# Clustered 1,396 points down to 20 clusters, for 98.6% compression in 0.13 seconds
+# Silhouette coefficient: -0.166
 
 X = cluster_bixi_stations[['latitude', 'longitude']].values
 
@@ -827,52 +829,3 @@ clustering_bixi_stations.head(5)
 bixi_master_stations = bixi_master_stations.merge(clustering_bixi_stations, left_on='code', right_on='code')
 bixi_master_stations.head(50)
 
-"""# ANNEX: Testing the meteostat.net API"""
-
-pip install meteostat
-
-# import all relevant meteostat packages
-from datetime import datetime
-from meteostat import Stations
-from meteostat import Daily
-from meteostat import Point
-
-# check stations available in the montreal area
-stations = Stations()
-stations = stations.nearby(49.2497, -73.5673)
-station = stations.fetch(1)
-
-print(station)
-
-# Remarque: la plupart des stations sont assez éloignées de Montréal.
-
-# Test pour voir si les données météo concordent avec ce qu'on trouve sur Météomédia malgré tout. Testons juin 2020.
-start = datetime(2020, 6, 1)
-end = datetime(2020, 6, 30)
-
-data = Daily(station, start=start, end=end)
-data = data.normalize()
-data = data.fetch()
-
-print(data)
-# Conclusion: Il manque beaucoup de données, et celles qu'on a ne sont pas fiables! Nous allons devoir télécharger les données d'Environnement Canada!
-
-# Je tente d'utiliser le module d'interpolation pour voir si ça donne de meilleurs résultats!
-datamtl = Point(49.2497, -73.5673)
-
-start = datetime(2021, 1, 1)
-end = datetime(2021, 1, 1)
-
-data = Daily(datamtl, start=start, end=end)
-data = data.normalize()
-data = data.fetch()
-
-print(data)
-
-# Météomedia donne -0.2 et -5.1, donc meteostat est vraiment dans le champ.
-
-"""**CONCLUSION:**
-Meteostat fonctionne très bien, mais malheureusement les résultats sont très douteux. Je recommande que nous utilisions les données brutes des stations météo d'environnement Canada.
-
-On retrouve les donnnées au: https://climat.meteo.gc.ca/historical_data/search_historic_data_f.html ; il est facile de télécharger les données CSV pour la période qui nous intéresse!
-"""
